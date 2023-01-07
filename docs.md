@@ -9,10 +9,4 @@ pip install music21
 
 
 
-
-
-
-
-
-playMidi('test.mid')
    

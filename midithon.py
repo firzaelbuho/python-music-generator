@@ -3,7 +3,37 @@ from midiutil import MIDIFile
 
 
 
+# Fungsi mengubah note jadi string
 
+def k(int_note:int):
+    note = int_note % 12
+    key = ""
+    if(note == 1):
+        key = "C"
+    elif(note == 2):
+        key = "C#"
+    elif(note == 3):
+        key = "D"
+    elif(note == 4):
+        key = "D#"
+    elif(note == 5):
+        key = "E"
+    elif(note == 6):
+        key = "F"
+    elif(note == 7):
+        key = "F#"
+    elif(note == 8):
+        key = "G"
+    elif(note == 9):
+        key = "G#"
+    elif(note == 10):
+        key = "A"
+    elif(note == 11):
+        key = "A#"
+    elif(note == 0):
+        key = "B"
+
+    return key
 
 # Fungsi utk membuat note dr string
 def n(note :str, octave=4):
@@ -92,31 +122,50 @@ class MyChord:
     def __init__(self, str_note:str,  chordBase:str, duration:float, octave = 4):
         note = n(str_note, octave)
         self.duration = duration
-        self.str_note = str_note + chordBase
         self.isDelay = False
-        if(chordBase == "delay"):
+        self.chord_base = chordBase
+        if(str_note == "delay"):
             self.isDelay = True
-            self.str_note = "delay"
             self.notes = [ 0, 0, 0 ]
-        elif(chordBase == "maj"):
-            self.notes = [ note, note + 4, note + 7 ]
-        elif(chordBase == "min"):
-            self.notes = [ note, note + 3, note + 7 ]
         else:
-            self.notes = [ note, note + 3, note + 6 ]
+            self.str_note = str_note + chordBase
+            if(chordBase == "maj"):
+                self.notes = [ note, note + 4, note + 7 ]
+            elif(chordBase == "min"):
+                self.notes = [ note, note + 3, note + 7 ]
+            else:
+                self.notes = [ note, note + 3, note + 6 ]
         self.duration = duration
-        self.str_note = str_note + chordBase
+
+       
+    def get_str(self):
+        str = ""
+        if(self.isDelay):
+            str =   "|"
+        else:
+            str = k(self.notes[0]) + self.chord_base
+        return str
+
+       
 # Kelas Note
 class MyNote:
     def __init__(self, note_str:str, duration:float, octave = 4):
         self.duration = duration
         self.isDelay = False
-        self.note_str = note_str
+       
         if(note_str == "delay"):
             self.isDelay = True
             self.note = 0
         else:
             self.note = n(note_str, octave)
+    
+    def get_str(self):
+        str = ""
+        if(self.isDelay):
+            str =   "|"
+        else:
+            str = k(self.note)
+        return str
             
 
 
@@ -307,7 +356,7 @@ def create_chord(chords:list  , midi, track = 0, time = 0, style = 0, style_attr
     
     return midi
 
-def transpose(chords, curr_type:str, curr_key:str, target_type:str, targer_key:str):
+def transpose_chords(chords:list[MyChord], curr_type:str, curr_key:str, target_type:str, targer_key:str):
     target_chords = chord_family[target_type][targer_key]
     current_chords = chord_family[curr_type][curr_key]
 
@@ -322,12 +371,15 @@ def transpose(chords, curr_type:str, curr_key:str, target_type:str, targer_key:s
                     break
     return chords
 
+def transpose_notes(notes:list[MyNote], step:int):
+    new_notes = notes
+    for i, note in enumerate(new_notes):
+        notes[i].note = note.note + step
+    
+    return new_notes
 
 
 
-def showNotes(notes):
-    for note in notes:
-        print (note.str_note + ", ") 
 
 
 from music21 import midi as mp
@@ -343,10 +395,19 @@ def playMidi(path:str, midi:MIDIFile):
     s.show('midi')
 
 
-def showNotes(notes):
+def showChords(chords : list[MyChord]):
+    str = "\n  "
+    for i,chord in enumerate(chords):
+        str += chord.get_str() + "  "
+        if( (i+1) %4 == 0 ):
+            str+= "\n  "
+    str += "  \n\n"
+    print(str)
+
+def showNotes(notes : list[MyNote]):
     str = "\n  "
     for i,note in enumerate(notes):
-        str += note.str_note +"  "
+        str += note.get_str() + "  "
         if( (i+1) %4 == 0 ):
             str+= "\n  "
     str += "  \n\n"
