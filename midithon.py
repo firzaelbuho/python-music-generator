@@ -96,6 +96,8 @@ class MyChord:
         self.isDelay = False
         if(chordBase == "delay"):
             self.isDelay = True
+            self.str_note = "delay"
+            self.notes = [ 0, 0, 0 ]
         elif(chordBase == "maj"):
             self.notes = [ note, note + 4, note + 7 ]
         elif(chordBase == "min"):
@@ -107,9 +109,15 @@ class MyChord:
 # Kelas Note
 class MyNote:
     def __init__(self, note_str:str, duration:float, octave = 4):
-        self.str_note = note_str
-        self.note = n(note_str, octave)
         self.duration = duration
+        self.isDelay = False
+        self.note_str = note_str
+        if(note_str == "delay"):
+            self.isDelay = True
+            self.note = 0
+        else:
+            self.note = n(note_str, octave)
+            
 
 
 # Chord Family
@@ -200,10 +208,11 @@ def create_melody(notes, midi, track = 0, time = 0):
    
    
     for note in notes:
-        midi.addNote(track, channel, note.note, time, note.duration, volume)
+        if not note.isDelay:
+            midi.addNote(track, channel, note.note, time, note.duration, volume)
+        
         time += note.duration
-        print(time)
-        print("beat")
+           
     
     
     return midi
@@ -306,7 +315,9 @@ def transpose(chords, curr_type:str, curr_key:str, target_type:str, targer_key:s
         if(not chord.isDelay):
             for j, current in enumerate(current_chords):
                 if(chord.notes[0] == current.notes[0]):
+                    duration = (chords[i].duration)
                     chords[i] = target_chords[j]
+                    chords[i].duration = duration
                     
                     break
     return chords

@@ -28,32 +28,27 @@ hikaru_nara = [
 
 blue_bird = [
    
-    MyChord('F', "delay", 2),
-    MyChord('F', "maj", 2),
-    MyChord('E', "min", 1.5),
-    MyChord('A', "min", 2.5),
-
-    MyChord('F', "delay", 2),
-    MyChord('D', "min", 2),
-    MyChord('G', "maj", 1.5),
-    MyChord('C', "maj", 3.5),
-
-    
-    MyChord('F', "delay", 2),
-    MyChord('F', "maj", 2),
-    MyChord('E', "min", 1.5),
-    MyChord('A', "min", 2.5),
-
-    MyChord('F', "delay", 2),
-    MyChord('D', "min", 2),
-    MyChord('G', "maj", 1.5),
-    MyChord('A', "min", 2.5),
-
-   
+    MyChord('D', "delay", 2),
+    MyChord('E', "maj", 2),
+    MyChord('F#', "min", 1.5),
+    MyChord('B', "min", 2.5),
 ]
-x = transpose(blue_bird, "major", "f", "major", "c")
-# midi = create_melody(notes_coll,midi, track = 0, time = 0)
-midi = create_chord(x ,midi, track= 1, time = 0, style = 0, style_attr = 0.5)
+
+bb = [
+     MyNote('do', 1.25),
+     MyNote('re', 0.5),
+     MyNote('mi', 0.75),
+     MyNote('fa', 0.75),
+     MyNote('sol', 1.25),
+     MyNote('mi', 0.5),
+     MyNote('do', 3),
+]
+
+x = transpose(blue_bird, "major", "d", "major", "c")
+midi = create_melody(bb, midi, track = 0, time = 0)
+# midi = create_chord(x ,midi, track= 1, time = 0, style = 0, style_attr = 0.5)
+
+
 
 
 playMidi("test.mid", midi)
