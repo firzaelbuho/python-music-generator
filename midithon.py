@@ -198,6 +198,8 @@ chord_family = {
         "c" : [ MyChord("C", "min", 4),  MyChord("D", "dim", 4), MyChord("D#", "maj", 4), MyChord("F", "min", 4), 
                  MyChord("G", "min", 4),MyChord("G#", "maj", 4),MyChord("A#", "maj", 4)],
 
+      
+
         "d" : [ MyChord("D", "min", 4),  MyChord("E", "dim", 4), MyChord("F", "maj", 4), MyChord("G", "min", 4), 
                  MyChord("A", "min", 4),MyChord("A#", "maj", 4),MyChord("C", "maj", 4)],
 

@@ -85,10 +85,23 @@ hikaru_nara_chord = [
     MyChord('F#', "min", dur ),
     MyChord('C#', "min", dur ),
 
-    MyChord('B', "min", dur, 3 ),
+    MyChord('B', "min", dur ),
     MyChord('E', "maj", dur ),
     MyChord('D', "maj", dur ),
     MyChord('D', "maj", dur )
+]
+
+hikaru_nara_chord_2 = [
+   
+    MyChord('C', "maj", dur ,5),
+    MyChord('D', "maj", dur ,5),
+    MyChord('E', "min", dur ,5),
+    MyChord('B', "min", dur, 4 ),
+
+    MyChord('A', "min", dur, 4 ),
+    MyChord('D', "maj", dur , 5),
+    MyChord('C', "maj", dur , 5),
+    MyChord('C', "maj", dur , 5)
 ]
 
 
@@ -127,15 +140,14 @@ hikaru_nara = [
 ]
 
 
-x = transpose_notes(hikaru_nara, 12)
+# x = transpose_notes(hikaru_nara, 12)
 
 
 
 
 # showNotes(ibkk)
-hikaru_nara_chord = transpose_chords(hikaru_nara_chord, "major", "d", "major", "c")
+hikaru_nara_chord = transpose_chords(hikaru_nara_chord, "major", "a", "major", "g")
 showChords(hikaru_nara_chord)
-# y = transpose_notes(bb, 4)
 midi = create_melody(hikaru_nara, midi, track = 0, time = 0)
-midi = create_chord(hikaru_nara_chord ,midi, track= 1, time = 0, style = 0, style_attr = 0.5 )
+midi = create_chord(hikaru_nara_chord_2 ,midi, track= 1, time = 0, style = 0, style_attr = 0.5 )
 playMidi("test.mid", midi)
