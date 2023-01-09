@@ -135,7 +135,7 @@ class MyChord:
                 self.notes = [ note, note + 3, note + 7 ]
             else:
                 self.notes = [ note, note + 3, note + 6 ]
-        self.duration = duration
+       
 
        
     def get_str(self):
@@ -195,20 +195,26 @@ chord_family = {
                  MyChord("F#", "maj", 4),MyChord("G#", "min", 4),MyChord("A#", "dim", 4)],
     },
      "minor" : {
-        "c" : [ MyChord("C", "maj", 4),  MyChord("C", "maj", 4), MyChord("C", "maj", 4), MyChord("C", "maj", 4), 
-                 MyChord("C", "maj", 4),MyChord("C", "maj", 4),MyChord("C", "maj", 4)],
-        "d" : [ MyChord("C", "maj", 4),  MyChord("C", "maj", 4), MyChord("C", "maj", 4), MyChord("C", "maj", 4), 
-                 MyChord("C", "maj", 4),MyChord("C", "maj", 4),MyChord("C", "maj", 4)],
-        "e" : [ MyChord("C", "maj", 4),  MyChord("C", "maj", 4), MyChord("C", "maj", 4), MyChord("C", "maj", 4), 
-                 MyChord("C", "maj", 4),MyChord("C", "maj", 4),MyChord("C", "maj", 4)],
-        "f" : [ MyChord("C", "maj", 4),  MyChord("C", "maj", 4), MyChord("C", "maj", 4), MyChord("C", "maj", 4), 
-                 MyChord("C", "maj", 4),MyChord("C", "maj", 4),MyChord("C", "maj", 4)],
-        "g" : [ MyChord("C", "maj", 4),  MyChord("C", "maj", 4), MyChord("C", "maj", 4), MyChord("C", "maj", 4), 
-                 MyChord("C", "maj", 4),MyChord("C", "maj", 4),MyChord("C", "maj", 4)],
-        "a" : [ MyChord("C", "maj", 4),  MyChord("C", "maj", 4), MyChord("C", "maj", 4), MyChord("C", "maj", 4), 
-                 MyChord("C", "maj", 4),MyChord("C", "maj", 4),MyChord("C", "maj", 4)],
-        "b" : [ MyChord("C", "maj", 4),  MyChord("C", "maj", 4), MyChord("C", "maj", 4), MyChord("C", "maj", 4), 
-                 MyChord("C", "maj", 4),MyChord("C", "maj", 4),MyChord("C", "maj", 4)],
+        "c" : [ MyChord("C", "min", 4),  MyChord("D", "dim", 4), MyChord("D#", "maj", 4), MyChord("F", "min", 4), 
+                 MyChord("G", "min", 4),MyChord("G#", "maj", 4),MyChord("A#", "maj", 4)],
+
+        "d" : [ MyChord("D", "min", 4),  MyChord("E", "dim", 4), MyChord("F", "maj", 4), MyChord("G", "min", 4), 
+                 MyChord("A", "min", 4),MyChord("A#", "maj", 4),MyChord("C", "maj", 4)],
+
+        "e" : [ MyChord("E", "min", 4),  MyChord("F#", "dim", 4), MyChord("G", "maj", 4), MyChord("A", "min", 4), 
+                 MyChord("B", "min", 4),MyChord("C", "maj", 4),MyChord("D", "maj", 4)],
+
+        "f" : [ MyChord("F", "min", 4),  MyChord("G", "dim", 4), MyChord("G#", "maj", 4), MyChord("A#", "min", 4), 
+                 MyChord("C", "min", 4),MyChord("C#", "maj", 4),MyChord("D#", "maj", 4)],
+
+        "g" : [ MyChord("G", "min", 4),  MyChord("A", "dim", 4), MyChord("A#", "maj", 4), MyChord("C", "min", 4), 
+                 MyChord("D", "min", 4),MyChord("D#", "maj", 4),MyChord("F", "maj", 4)],
+
+        "a" : [ MyChord("A", "min", 4),  MyChord("B", "dim", 4), MyChord("C", "maj", 4), MyChord("D", "min", 4), 
+                 MyChord("E", "min", 4),MyChord("F", "maj", 4),MyChord("G", "maj", 4)],
+
+        "b" : [ MyChord("B", "min", 4),  MyChord("C#", "dim", 4), MyChord("D", "maj", 4), MyChord("E", "min", 4), 
+                 MyChord("F#", "min", 4),MyChord("G", "maj", 4),MyChord("A", "maj", 4)],
     },
 
        
@@ -263,19 +269,21 @@ def create_melody(notes, midi, track = 0, time = 0):
         time += note.duration
            
     
-    
+    print("melody time " , time)
     return midi
 
 
-def create_chord(chords:list  , midi, track = 0, time = 0, style = 0, style_attr = 0):
+def create_chord(chords:list[MyChord]  , midi, track = 0, time = 0, style = 0, style_attr = 0):
     channel = 0
     volume = 100  # 0-127, as per the MIDI standard
    
     
    
     for chord in chords:
-
+        print("chord duration" , chord.duration)
         if not chord.isDelay:
+
+            #print("chord " , time)
 
             if(style == 0):
                 for note in chord.notes:
@@ -353,7 +361,7 @@ def create_chord(chords:list  , midi, track = 0, time = 0, style = 0, style_attr
           
         time += chord.duration
        
-    
+    print("chord time " , time)
     return midi
 
 def transpose_chords(chords:list[MyChord], curr_type:str, curr_key:str, target_type:str, targer_key:str):
@@ -364,7 +372,7 @@ def transpose_chords(chords:list[MyChord], curr_type:str, curr_key:str, target_t
         if(not chord.isDelay):
             for j, current in enumerate(current_chords):
                 if(chord.notes[0] == current.notes[0]):
-                    duration = (chords[i].duration)
+                    duration = (chord.duration)
                     chords[i] = target_chords[j]
                     chords[i].duration = duration
                     
