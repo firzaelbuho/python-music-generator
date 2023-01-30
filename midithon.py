@@ -257,6 +257,19 @@ canon_d = [
    
 ]
 
+def isOdd(x:int):
+    isOdd = True
+    y = x % 2
+    if(y == 1):
+        isOdd = False
+    
+    return isOdd
+
+def change_duration(chords:list[MyChord], duration:float):
+    for i in range(len(chords)):
+        chords[i].duration = duration
+    
+    return chords
 
 def create_melody(notes, midi, track = 0, time = 0):
    
@@ -281,8 +294,8 @@ def create_chord(chords:list[MyChord]  , midi, track = 0, time = 0, style = 0, s
    
     
    
-    for chord in chords:
-        print("chord duration" , chord.duration)
+    for i, chord in enumerate(chords):
+        print("chord duration 1= ", chord.get_str() , chord.duration)
         if not chord.isDelay:
 
             #print("chord " , time)
@@ -293,9 +306,9 @@ def create_chord(chords:list[MyChord]  , midi, track = 0, time = 0, style = 0, s
 
             if(style == 1):
                 interval = style_attr
-                midi.addNote(track, channel, chord.notes[0], time + 0, chord.duration - 0, volume)
-                midi.addNote(track, channel, chord.notes[1], time + interval, chord.duration - interval, volume)
-                midi.addNote(track, channel, chord.notes[2], time + (interval * 2), chord.duration - (interval * 2), volume)
+                midi.addNote(track, channel, chord.notes[0], time + 0, interval, volume)
+                midi.addNote(track, channel, chord.notes[1], time + interval, interval, volume)
+                midi.addNote(track, channel, chord.notes[2], time + (interval * 2), interval, volume)
     
             if(style == 2):
                 interval = style_attr
@@ -360,8 +373,53 @@ def create_chord(chords:list[MyChord]  , midi, track = 0, time = 0, style = 0, s
                 midi.addNote(track, channel, chord.notes[2], time + interval * 2, chord.duration - (interval * 4), volume)
                 midi.addNote(track, channel, chord.notes[1], time + (interval * 3), chord.duration - (interval * 4), volume)
                 midi.addNote(track, channel, chord.notes[0], time + (interval * 4), chord.duration - (interval * 4), volume)
+
+            # Royal Style
+
+
           
-        time += chord.duration
+            if(style == 15):
+                if(isOdd(i)):
+                    interval = chord.duration/4
+                    midi.addNote(track, channel, chord.notes[2], time + 0, interval - 0, volume)
+                    midi.addNote(track, channel, chord.notes[1], time + interval, interval, volume)
+                    midi.addNote(track, channel, chord.notes[0], time + interval * 2, interval, volume)
+                    midi.addNote(track, channel, chord.notes[2], time + (interval * 3), interval, volume)
+                   
+                   
+                else:
+                    for note in chord.notes:
+                        midi.addNote(track, channel, note, time, chord.duration, volume)
+
+            # yoasobi 1
+            if(style == 16):
+                interval = style_attr
+                midi.addNote(track, channel, chord.notes[0], time + 0, interval, volume)
+                midi.addNote(track, channel, chord.notes[1], time + interval, interval, volume)
+                midi.addNote(track, channel, chord.notes[2], time + interval * 2, interval, volume)
+                midi.addNote(track, channel, chord.notes[1], time + (interval * 3), interval, volume)
+                midi.addNote(track, channel, chord.notes[0], time + (interval * 4), interval, volume)
+                midi.addNote(track, channel, chord.notes[1], time + (interval * 5), interval, volume)
+                midi.addNote(track, channel, chord.notes[2], time + (interval * 6), interval, volume)
+                midi.addNote(track, channel, chord.notes[1], time + (interval * 7), interval, volume)
+
+
+            # replay style (jreng, jreng, jreng)
+            if(style == 17):
+                interval = style_attr
+                n = int(chord.duration / interval)
+                print(n)
+                for k in range(1, n+1):
+                    midi.addNote(track, channel, chord.notes[0], time + ((k - 1)*interval), interval, volume)
+                    midi.addNote(track, channel, chord.notes[1], time + ((k - 1)*interval), interval, volume)
+                    midi.addNote(track, channel, chord.notes[2], time + ((k - 1)*interval), interval, volume)
+
+                    print("played ", k)
+            time += chord.duration
+
+
+          
+
        
     print("chord time " , time)
     return midi
@@ -422,3 +480,6 @@ def showNotes(notes : list[MyNote]):
             str+= "\n  "
     str += "  \n\n"
     print(str)
+
+
+

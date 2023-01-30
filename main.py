@@ -4,7 +4,7 @@ from midiutil import MIDIFile
 
 track = 0
 time = 0
-tempo =140
+tempo =160
 
 midi = MIDIFile(4)  # 4 track, defaults to format 1 (tempo track is created  automatically)
 midi.addTempo(track, time, tempo)
@@ -142,12 +142,104 @@ hikaru_nara = [
 
 # x = transpose_notes(hikaru_nara, 12)
 
+twinkle = [
+     MyNote('C',2),
+     MyNote('C',2),
+     MyNote('G',2),
+     MyNote('G',2),
+     MyNote('A',2),
+     MyNote('A',2),
+     MyNote('G',4),
+     MyNote('F',2),
+     MyNote('F',2),
+     MyNote('E',2),
+     MyNote('E',2),
+     MyNote('D',2),
+     MyNote('D',2),
+     MyNote('C',4),
+]
 
+twinkle_chord = [
+    MyChord('C', "maj", 2),
+    MyChord('C', "maj", 2),
+    MyChord('E', "min", 2),
+    MyChord('E', "min", 2),
+    MyChord('F', "maj", 2),
+    MyChord('F', "maj", 2),
+    MyChord('E', "min", 4),
+    MyChord('F', "min", 2),
+    MyChord('F', "min", 2),
+    MyChord('E', "min", 2),
+    MyChord('E', "min", 2),
+    MyChord('D', "min", 2),
+    MyChord('D', "min", 2),
+    MyChord('C', "min", 4),
+]
+
+
+cb =   chord_family["major"]["c"]
+royal= [
+  cb[3],
+  cb[4],
+  cb[2],
+  cb[5],
+
+  cb[3],
+  cb[4],
+  cb[2],
+  cb[5],
+
+  cb[3],
+  cb[4],
+  cb[2],
+  cb[5],
+
+  cb[1],
+  cb[4],
+  cb[0],
+  cb[0],
+
+ 
+
+  ]
+
+
+mc = [
+ cb[0],
+ cb[3],
+ cb[4],
+ cb[0]
+
+ 
+
+  ]
+
+
+mychord = [
+      chord_family["major"]["c"][0],
+      chord_family["major"]["c"][4],
+      chord_family["major"]["c"][3],
+      chord_family["major"]["c"][2],
+      chord_family["major"]["c"][0],
+      chord_family["major"]["c"][4],
+      chord_family["major"]["c"][3],
+      chord_family["major"]["c"][2],
+      chord_family["major"]["c"][0],
+      chord_family["major"]["c"][4],
+      chord_family["major"]["c"][3],
+      chord_family["major"]["c"][2],
+
+      
+]
 
 
 # showNotes(ibkk)
-hikaru_nara_chord = transpose_chords(hikaru_nara_chord, "major", "a", "major", "g")
-showChords(hikaru_nara_chord)
-midi = create_melody(hikaru_nara, midi, track = 0, time = 0)
-midi = create_chord(hikaru_nara_chord_2 ,midi, track= 1, time = 0, style = 0, style_attr = 0.5 )
+royal = transpose_chords(royal, "major", "c", "major", "a")
+
+
+# midi = create_melody(twinkle, midi, track = 0, time = 0)
+mc = change_duration(mc, 8)
+midi = create_chord(mc ,midi, track= 1, time = 0, style = 17, style_attr = 2 )
+
 playMidi("test.mid", midi)
+showChords(royal)
