@@ -4,7 +4,7 @@ from midiutil import MIDIFile
 
 track = 0
 time = 0
-tempo =160
+tempo =140
 
 midi = MIDIFile(4)  # 4 track, defaults to format 1 (tempo track is created  automatically)
 midi.addTempo(track, time, tempo)
@@ -179,67 +179,56 @@ twinkle_chord = [
 
 cb =   chord_family["major"]["c"]
 royal= [
-  cb[3],
   cb[4],
-  cb[2],
   cb[5],
-
   cb[3],
-  cb[4],
-  cb[2],
-  cb[5],
-
-  cb[3],
-  cb[4],
-  cb[2],
-  cb[5],
-
-  cb[1],
-  cb[4],
-  cb[0],
-  cb[0],
-
- 
+  cb[6],
+  
 
   ]
 
 
 mc = [
- cb[0],
- cb[3],
+ cb[1],
  cb[4],
- cb[0]
-
- 
-
+ cb[5],
+ cb[1]
   ]
 
 
-mychord = [
-      chord_family["major"]["c"][0],
-      chord_family["major"]["c"][4],
-      chord_family["major"]["c"][3],
-      chord_family["major"]["c"][2],
-      chord_family["major"]["c"][0],
-      chord_family["major"]["c"][4],
-      chord_family["major"]["c"][3],
-      chord_family["major"]["c"][2],
-      chord_family["major"]["c"][0],
-      chord_family["major"]["c"][4],
-      chord_family["major"]["c"][3],
-      chord_family["major"]["c"][2],
 
-      
+melodi = [
+    MyNote("do", 1.5),
+    MyNote("do", 1.5),
+    MyNote("re", 1),
+    MyNote("mi", 1.5),
+    MyNote("do", 1),
+    MyNote("mi", 1.5),
+    MyNote("sol", 1),
+    MyNote("do", 2, 6),
+    MyNote("si", 1),
+    MyNote("la", 2),
+
+
 ]
 
 
 # showNotes(ibkk)
-royal = transpose_chords(royal, "major", "c", "major", "a")
+# royal = transpose_chords(royal, "major", "c", "major", "a")
 
 
 # midi = create_melody(twinkle, midi, track = 0, time = 0)
-mc = change_duration(mc, 8)
-midi = create_chord(mc ,midi, track= 1, time = 0, style = 17, style_attr = 2 )
+# midi = create_melody(melodi, midi, track = 0, time = 0)
+# mc = change_durations(mc, 8)
+# midi = create_chord(mc ,midi, track= 1, time = 0, style = 0, style_attr = 0 )
 
-playMidi("test.mid", midi)
-showChords(royal)
+
+
+# playMidi("test.mid", midi)
+# showChords(royal)
+
+# for i in range(0,256):
+#     create_note(i)
+#     print(i)
+
+print(cb[6].get_str_notes())
