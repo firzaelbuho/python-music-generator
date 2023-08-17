@@ -37,7 +37,11 @@ def create_chord(chords:list[MyChord]  , midi, track = 0, time = 0, special:SPEC
     volume = 100  # 0-127, as per the MIDI standard
    
     if special == SPECIAL.NONE:
+        print(f'chords are : {chords} with lengt {len(chords)}')
         for i, chord in enumerate(chords):
+
+            print(f'tessss')
+
             # set play duration scale
             empty_duration = (((1 - chord.play_style.duration_scale) * (chord.duration)))
             play_duration = chord.duration - empty_duration
@@ -46,9 +50,10 @@ def create_chord(chords:list[MyChord]  , midi, track = 0, time = 0, special:SPEC
             if not chord.is_delay:
                 # STANDARD
                 if(chord.play_style.style == Style.STANDARD):
+                    print(f'STD now playing chord {chord.get_str()} for {play_duration} at {time} with {chord.play_style.style} from {time} until {time + chord.duration}')
                     for note in chord.get_notes():
                         midi.addNote(track, channel, note, time, play_duration, volume)
-                    print(f'STD now playing chord {chord.get_str()} for {play_duration} at {time}')
+
                 # REPEAT , using beat count
                 elif(chord.play_style.style == Style.REPEAT):
                     interval = play_duration / chord.play_style.beat_count
@@ -232,10 +237,10 @@ def create_chord(chords:list[MyChord]  , midi, track = 0, time = 0, special:SPEC
                     midi.addNote(track, channel, (notes[2]) + 1, time + (interval * 4), play_duration - (interval * 4), volume)
                     # midi.addNote(track, channel, (notes[2]) - 10, time + (interval * 4), play_duration - (interval * 4), volume)
 
-                
+            time += chord.duration  
 
             print(f"Total Play Time : {time} elapsed")
-            return midi    
+        return midi    
           
 
     elif special == SPECIAL.ROYAL_CHORD:
@@ -297,8 +302,8 @@ def create_chord(chords:list[MyChord]  , midi, track = 0, time = 0, special:SPEC
             # play chord 5
             notes = c_chords[4].get_notes()
 
-            midi.addNote(track, channel, notes[0], time + (interval * 0), interval * 3, volume)
-            midi.addNote(track, channel, notes[1], time + (interval * 0), interval * 3, volume)
+            midi.addNote(track, channel, notes[0] + 12, time + (interval * 0), interval * 3, volume)
+            midi.addNote(track, channel, notes[1] + 0, time + (interval * 0), interval * 3, volume)
             midi.addNote(track, channel, notes[2], time + (interval * 0), interval * 3, volume)
 
             midi.addNote(track, channel, notes[2], time + (interval * 3), interval, volume)
@@ -308,18 +313,18 @@ def create_chord(chords:list[MyChord]  , midi, track = 0, time = 0, special:SPEC
             # play chord 6
             notes = c_chords[5].get_notes()
         
-            midi.addNote(track, channel, notes[0], time + (interval * 0), interval * 3, volume)
+            midi.addNote(track, channel, notes[0] + 12, time + (interval * 0), interval * 3, volume)
             midi.addNote(track, channel, notes[1], time + (interval * 0), interval * 3, volume)
             midi.addNote(track, channel, notes[2], time + (interval * 0), interval * 3, volume)
 
-            midi.addNote(track, channel, notes[0], time + (interval * 3), interval, volume)
+            midi.addNote(track, channel, notes[0] + 12, time + (interval * 3), interval, volume)
             
             time += play_duration
 
             # play chord 7
             notes = c_chords[6].get_notes()
         
-            midi.addNote(track, channel, notes[0], time + (interval * 0), interval * 8, volume)
+            midi.addNote(track, channel, notes[0] + 0, time + (interval * 0), interval * 8, volume)
             midi.addNote(track, channel, notes[1], time + (interval * 0), interval * 8, volume)
             midi.addNote(track, channel, notes[2], time + (interval * 0), interval * 8, volume)
 

@@ -7,7 +7,7 @@ from tool.miditool import is_odd
 
 track = 0
 time = 0
-tempo =140
+tempo =160
 
 midi = MIDIFile(4)  # 4 track, defaults to format 1 (tempo track is created  automatically)
 midi.addTempo(track, time, tempo)
@@ -27,7 +27,7 @@ for c in royal_chord:
     c.duration = 4
 
 canon_bass = tp.transpose_chords_octave((royal_chord),4)
-midi = p.create_chord(canon_bass, midi, track = 1, time = 0)
+# midi = p.create_chord(canon_bass, midi, track = 1, time = 0)
 
 canon = tp.combo_style_n_pattern(royal_chord, Style.ROYAL_CHORD, Style.ROYAL_CHORD, 8,4)    
 midi = p.create_chord(canon, midi, track = 0, time = 0, special= p.SPECIAL.ROYAL_CHORD)
