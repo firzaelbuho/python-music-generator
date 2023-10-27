@@ -4,7 +4,7 @@
 
 This documentation explains how to install and run the Python Music Generator project.
 
-## Step 1: Create a Virtual Environment (venv)
+## 1. Create a Virtual Environment (venv)
 
 
 
@@ -12,7 +12,7 @@ This documentation explains how to install and run the Python Music Generator pr
 python -m venv venv
 ```
 
-## Step 2: Activate Virtual Environment (venv)
+## 2. Activate Virtual Environment (venv)
 
 
 ##### Windows
@@ -26,7 +26,7 @@ venv\Scripts\activate
 source venv/bin/activate
 ```
 
-## Step 3: Install Requirements Libararies
+## 3. Install Requirements Libararies
 
 
 ```shell
