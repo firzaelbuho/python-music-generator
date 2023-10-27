@@ -1,5 +1,7 @@
 from midithon import *
-
+from tool.my_chord import *
+from tool.chord_family import *
+from tool.my_note import *
 from midiutil import MIDIFile
 
 track = 0
