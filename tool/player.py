@@ -37,7 +37,7 @@ def create_chord(chords:list[MyChord]  , midi, track = 0, time = 0, special:SPEC
     volume = 100  # 0-127, as per the MIDI standard
    
     if special == SPECIAL.NONE:
-        print(f'chords are : {chords} with lengt {len(chords)}')
+        print(f'chords are : {chords} with length {len(chords)}')
         for i, chord in enumerate(chords):
 
             print(f'tessss')

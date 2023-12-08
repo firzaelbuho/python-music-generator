@@ -10,11 +10,38 @@ class ChordType(Enum):
     DELAY = "delay"
 
 class Style(Enum):
-    STANDARD = "standard"
+
+    """
+    Enum class to represent gender.
+
+    Values:
+    - `STANDARD`: the notes of chord played once at same times.
+    - `REPEAT`: the notes of chord played X times repeatly.
+    """
+
+    def __str__(self):
+        return str(self.value)
+
+    @property
+    def description(self):
+        """
+        Get a detailed description of the gender.
+
+        Returns:
+        - str: Description of the gender.
+        """
+        if self == Style.STANDARD:
+            return "the notes of chord played once at same times."
+        elif self == Style.REPEAT:
+            return "the notes of chord played X times repeatly"
+        else:
+            return "Unknown gender."
+
+    STANDARD = "standard" #
     REVERSE = "reverse"
 
     # beat count_based
-    REPEAT = "repeat"
+    REPEAT = "repeat" #
 
     # interval_based
     PROGRESSIVE = "progessive"
