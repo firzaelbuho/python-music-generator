@@ -1,5 +1,5 @@
 from tool.my_note import MyNote
-from tool.my_chord import MyChord, PlayStyle, Style
+from tool.my_chord import MyChord, PlayStyle, Style, ChordType
 from midiutil import MIDIFile
 
 from enum import Enum
@@ -47,7 +47,7 @@ def create_chord(chords:list[MyChord]  , midi, track = 0, time = 0, special:SPEC
             play_duration = chord.duration - empty_duration
             time += empty_duration
         
-            if not chord.is_delay:
+            if not chord.chord_type == ChordType.DELAY:
                 # STANDARD
                 if(chord.play_style.style == Style.STANDARD):
                     print(f'STD now playing chord {chord.get_str()} for {play_duration} at {time} with {chord.play_style.style} from {time} until {time + chord.duration}')
@@ -62,6 +62,97 @@ def create_chord(chords:list[MyChord]  , midi, track = 0, time = 0, special:SPEC
                             midi.addNote(track, channel, note, time + (interval * i), interval, volume)
                             print(f'now playing chord {chord.get_str()} for {interval} at {time}')
                 
+                # REPEAT_INVERSION , using beat count
+                elif(chord.play_style.style == Style.REPEAT_INVERSION_12):
+                    isFirstInversion = True
+                    interval = play_duration / chord.play_style.beat_count
+
+                    for i in range(chord.play_style.beat_count):
+                        if isFirstInversion:
+                            for note in chord.get_notes():
+                                midi.addNote(track, channel, note, time + (interval * i), interval, volume)
+                                print(f'now playing chord {chord.get_str()} for {interval} at {time}')
+                            isFirstInversion = False
+                        else:
+                            new_notes = [
+                                chord.get_notes()[2],
+                                chord.get_notes()[0] + 12,
+                                chord.get_notes()[1] + 12
+                            ]
+                            for note in new_notes:
+                                midi.addNote(track, channel, note, time + (interval * i), interval, volume)
+                                print(f'now playing chord {chord.get_str()} for {interval} at {time}')
+                            isFirstInversion = True
+                        
+
+                elif(chord.play_style.style == Style.REPEAT_INVERSION_12_ONCE):
+                    isFirstInversion = True
+                    interval = play_duration / chord.play_style.beat_count
+
+                    for i in range(chord.play_style.beat_count):
+                        if isFirstInversion:
+                            for note in chord.get_notes():
+                                midi.addNote(track, channel, note, time + (interval * i), interval, volume)
+                                print(f'now playing chord {chord.get_str()} for {interval} at {time}')
+                            isFirstInversion = False
+                        else:
+                            new_notes = [
+                                chord.get_notes()[2],
+                                chord.get_notes()[0] + 12,
+                                chord.get_notes()[1] + 12
+                            ]
+                            for note in new_notes:
+                                midi.addNote(track, channel, note, time + (interval * i), interval, volume)
+                                print(f'now playing chord {chord.get_str()} for {interval} at {time}')
+                        
+                
+                elif(chord.play_style.style == Style.REPEAT_INVERSION_13):
+                    isFirstInversion = True
+                    interval = play_duration / chord.play_style.beat_count
+
+                    for i in range(chord.play_style.beat_count):
+                        if isFirstInversion:
+                            for note in chord.get_notes():
+                                midi.addNote(track, channel, note, time + (interval * i), interval, volume)
+                                print(f'now playing chord {chord.get_str()} for {interval} at {time}')
+                            isFirstInversion = False
+                        else:
+                            new_notes = [
+                                chord.get_notes()[1],
+                                chord.get_notes()[2],
+                                chord.get_notes()[0] + 12
+                            ]
+                            for note in new_notes:
+                                midi.addNote(track, channel, note, time + (interval * i), interval, volume)
+                                print(f'now playing chord {chord.get_str()} for {interval} at {time}')
+                            isFirstInversion = True
+
+                elif(chord.play_style.style == Style.REPEAT_INVERSION_13_ONCE):
+                    isFirstInversion = True
+                    interval = play_duration / chord.play_style.beat_count
+
+                    for i in range(chord.play_style.beat_count):
+                        if isFirstInversion:
+                            for note in chord.get_notes():
+                                midi.addNote(track, channel, note, time + (interval * i), interval, volume)
+                                print(f'now playing chord {chord.get_str()} for {interval} at {time}')
+                            isFirstInversion = False
+                        else:
+                            new_notes = [
+                                chord.get_notes()[1],
+                                chord.get_notes()[2],
+                                chord.get_notes()[0] + 12
+                            ]
+                            for note in new_notes:
+                                midi.addNote(track, channel, note, time + (interval * i), interval, volume)
+                                print(f'now playing chord {chord.get_str()} for {interval} at {time}')
+                           
+                        
+                
+
+
+
+
                 # PROGRESSIVE, using interval 
                 elif(chord.play_style.style == Style.PROGRESSIVE):
                     interval = chord.play_style.interval

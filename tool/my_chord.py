@@ -17,31 +17,37 @@ class Style(Enum):
     Values:
     - `STANDARD`: the notes of chord played once at same times.
     - `REPEAT`: the notes of chord played X times repeatly.
+    - `REPEAT_INVERSION`: the notes of chord played X times repeatly with change inversion 1 and 2 each beat.
     """
 
     def __str__(self):
         return str(self.value)
 
-    @property
-    def description(self):
-        """
-        Get a detailed description of the gender.
+    # @property
+    # def description(self):
+    #     """
+    #     Get a detailed description of the gender.
 
-        Returns:
-        - str: Description of the gender.
-        """
-        if self == Style.STANDARD:
-            return "the notes of chord played once at same times."
-        elif self == Style.REPEAT:
-            return "the notes of chord played X times repeatly"
-        else:
-            return "Unknown gender."
+    #     Returns:
+    #     - str: Description of the gender.
+    #     """
+    #     if self == Style.STANDARD:
+    #         return "the notes of chord played once at same times."
+    #     elif self == Style.REPEAT:
+    #         return "the notes of chord played X times repeatly"
+    #     else:
+    #         return "Unknown gender."
 
     STANDARD = "standard" #
     REVERSE = "reverse"
 
     # beat count_based
     REPEAT = "repeat" #
+    REPEAT_INVERSION_12 = "repeat_inversion_12"
+    REPEAT_INVERSION_13 = "repeat_inversion_13"
+    REPEAT_INVERSION_12_ONCE = "repeat_inversion_12_once"
+    REPEAT_INVERSION_13_ONCE = "repeat_inversion_13_once"
+
 
     # interval_based
     PROGRESSIVE = "progessive"
@@ -56,6 +62,7 @@ class Style(Enum):
     ROYAL_CHORD_4 = "rc3"
     ROYAL_CHORD_5 = "rc4"
     ROYAL_CHORD_6 = "rc5"
+
 
 
 
@@ -79,10 +86,11 @@ from tool.miditool import k, n
 
 # Kelas Chord
 class MyChord:
-    def __init__(self, str_note:str ="", chord_type:ChordType = ChordType.MAJ, duration:float = 8, octave = 4, play_style:PlayStyle = PlayStyle()):
+    def __init__(self, str_note:str ="", chord_type:ChordType = ChordType.MAJ, duration:float = 8, octave = 4, play_style:PlayStyle = PlayStyle(), inversion:int = 1):
         self.duration = duration
         self.is_delay = False
         self.chord_type = chord_type
+        self.inversion = inversion
         import copy
         self.play_style = copy.copy(play_style)
         self.str_note = str_note
@@ -98,13 +106,32 @@ class MyChord:
             self.is_delay = True
             return [ 0, 0, 0 ]
         else:
-            note =  n(self.str_note, self.octave)
-            if(self.chord_type == ChordType.MAJ):
-                return [ note, note + 4, note + 7 ]
-            elif(self.chord_type == ChordType.MIN):
-                return [ note, note + 3, note + 7 ]
-            elif(self.chord_type == ChordType.DIM):
-                return [ note, note + 3, note + 6 ]
+            if self.inversion == 1:
+                note =  n(self.str_note, self.octave)
+                if(self.chord_type == ChordType.MAJ):
+                    return [ note, note + 4, note + 7 ]
+                elif(self.chord_type == ChordType.MIN):
+                    return [ note, note + 3, note + 7 ]
+                elif(self.chord_type == ChordType.DIM):
+                    return [ note, note + 3, note + 6 ]
+                
+            elif self.inversion == 2:
+                note =  n(self.str_note, self.octave)
+                if(self.chord_type == ChordType.MAJ):
+                    return [ note + 7 - 12, note, note + 4 ]
+                elif(self.chord_type == ChordType.MIN):
+                    return [ note + 7 - 12, note, note + 3 ]
+                elif(self.chord_type == ChordType.DIM):
+                    return [ note + 6 - 12, note, note + 3 ]
+                
+            elif self.inversion == 3:
+                note =  n(self.str_note, self.octave)
+                if(self.chord_type == ChordType.MAJ):
+                    return [ note + 4 - 12, note + 7 - 12, note  ]
+                elif(self.chord_type == ChordType.MIN):
+                    return [ note + 3 - 12, note + 7 - 12, note ]
+                elif(self.chord_type == ChordType.DIM):
+                    return [ note + 3 - 12, note + 6 - 12, note ]
        
     def get_str(self):
         str = ""
